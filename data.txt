@@ -165,7 +165,7 @@ Supernova Elite
 <div style="font-size:28px;margin-bottom:4px;">Click the link below to play poker on the newest poker site online!</div>
 <div style="font-size:28px;margin-bottom:4px;">Download the software and use promo code: MONEY for 30% Rakeback!</div>
 <div><a href="http://www.pokerupfront.com/"><img src="images/pokerupfront.png"></a></div>
-<div style="font-size:23.8px;margin-top:4px;">Michael Loncar is a Network Pro at PokerUpFront.</div>
+<div style="font-size:23.8px;margin-top:4px;">Michael Loncar is a Network Pro at PokerUpFront</div>
 <div style="font-size:23.8px;margin-top:4px;">Sign up today to play against him. Michael plays under the screen name: aeiOWNu</div>
 
 @@@@@=Gallery
