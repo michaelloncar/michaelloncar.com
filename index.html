@@ -1,0 +1,447 @@
+
+<html><head><meta charset="utf-8"><meta name="viewport" content="initial-scale=1.0" />
+<title>MichaelLoncar.com</title>
+<link rel="stylesheet" href="fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<style>
+
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; }
+body {
+	margin: 0px;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+table { border-collapse: collapse; }
+th, td { padding: 0px; }
+
+@font-face {
+	font-family: 'NillandRegular';
+	src: url('fonts/nilland-webfont.eot');
+	src: local('☺'), url('fonts/nilland-webfont.woff') format('woff'), url('fonts/nilland-webfont.ttf') format('truetype'), url('fonts/nilland-webfont.svg#webfontYPYnjJq9') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.nilland {
+	font-family: 'NillandRegular';
+}
+
+.top-tabs {
+	font-size: 21px;
+	line-height: 21px;
+}
+
+</style>
+</head><body>
+<script src="jquery.js"></script>
+<script src="utils.js"></script>
+<script src="fancybox/jquery.fancybox.pack.js"></script>
+<script>
+
+var hashToTab = { home : 'Home', aboutme : 'About Me', blog : 'Blog', pokerupfront : 'PokerUpFront', gallery : 'Gallery'}
+
+function drawTabs(current) {
+	var d = $('<div class="nilland top-tabs" style="position:absolute;right:0px;top:75px;"/>')
+	_.each(hashToTab, function (x, hash) {
+		if (hash != 'home')
+			d.append($('<span style="padding-left:15px;"/>').text('/'))
+		var dd = $('<span style="padding-left:17px;cursor:pointer"/>').text(x).click(function () {
+			setHash(hash)
+		})
+		if (hash == current) {
+			dd.myCss('color:rgb(3, 202, 243);text-decoration: underline;')
+		} else {
+			dd.hover(function () {
+				$(this).myCss('color:rgb(3, 202, 243);text-decoration: underline;')
+			}, function () {
+				$(this).myCss('color:white;text-decoration: none;')
+			})
+		}
+		d.append(dd)
+	})
+	return d
+}
+
+function drawTabsFooter() {
+	var d = $('<div/>')
+	_.each(hashToTab, function (x, hash) {
+		if (hash != 'home')
+			d.append($('<span style="padding-right:10px;"/>').text('/'))
+		var dd = $('<span style="padding-right:10px;cursor:pointer"/>').text(x).click(function () {
+			setHash(hash)
+		})
+		dd.hover(function () {
+			$(this).myCss('text-decoration: underline;')
+		}, function () {
+			$(this).myCss('text-decoration: none;')
+		})
+		d.append(dd)
+	})
+	return d
+}
+
+function drawSlides() {
+	addKeyframes('@keyframes FadeAway { 0% { opacity : 1; } 100% { opacity : 0 }')
+
+	var slides = _.map(new Array(5), function (__, i) {
+		var img = new Image()
+		img.src = 'images/slide' + (i + 1) + '.jpg'
+		return img
+	})
+	var currentSlide = 0
+
+	var d = $('<div style="position:relative;width:966px;height:453px;border:2px solid rgba(255, 255, 255, 0.1);"/>')
+	var under = $('<img style="position:absolute;left:0px;top:0px;width:962px;height:449px"/>')
+	var overDiv = $('<div style="position:absolute;left:0px;top:0px;width:962px;height:449px"/>')
+	d.append(under).append(overDiv)
+
+	function drawButtons() {
+		var d = $('<div style="position:absolute;left:0px;top:0px;width:962px;height:449px"/>')
+		function drawCircle(i) {
+			var d = 24
+			return $('<div class="circle"/>').css({
+				width : d + 'px',
+				height : d + 'px',
+				background : currentSlide == i ? 'grey' : 'white',
+				cursor : 'pointer',
+				'-moz-border-radius' : (d/2) + 'px',
+				'-webkit-border-radius' : (d/2) + 'px',
+				'border-radius' : (d/2) + 'px'
+			}).hover(function () {
+				$(this).css('background', 'grey')
+			}, function () {
+				$(this).css('background', currentSlide == i ? 'grey' : 'white')
+			}).css({
+				position : 'absolute',
+				right : (26 + (slides.length - i - 1) * (24 + 6)) + 'px',
+				bottom : '24px'
+			}).click(function () {
+				setSlide(i)
+			})
+		}
+		_.each(slides, function (src, i) {
+			d.append(drawCircle(i))
+		})
+		return d
+	}
+	d.append(drawButtons())
+
+	function setSlide(i) {
+		currentSlide = i
+		overDiv.empty()
+		if (under.attr('src')) {
+			var over = $('<img style="position:absolute;left:0px;top:0px;width:962px;height:449px"/>')
+			over.attr('src', under.attr('src'))
+			over.css('opacity', '0')
+			addAnimation(over, 'FadeAway 1.5s')
+			overDiv.append(over)
+		}
+		under.attr('src', slides[i].src)
+		d.find('.circle').css('background', 'white')
+		d.find('.circle:eq(' + currentSlide + ')').css('background', 'grey')
+		startTimeout()
+	}
+
+	var t = null
+	function stopTimeout() {
+		clearTimeout(t)
+	}
+	function startTimeout() {
+		stopTimeout()
+		t = setTimeout(function () {
+			if ($.contains(document.documentElement, d[0])) {
+				setSlide((currentSlide + 1) % slides.length)
+			}
+		}, 5000)
+	}
+	d.hover(stopTimeout, startTimeout)
+
+	setSlide(0)
+
+	return d
+}
+
+function drawCards() {
+	var d = $('<div style="position:relative;width:966px;height:249px;border:2px solid rgba(255, 255, 255, 0.1);"/>')
+	d.append($('<div style="width:100%;height:100%;background:black"/>'))
+
+	var saying = "It's a good life.".split(/ /)
+	var cards = _.map(new Array(4), function (__, i) {
+		var img = new Image()
+		img.src = 'images/card' + (i + 1) + '.png'
+		return img
+	})
+
+	_.each(cards, function (card, i) {
+		var x = i * 241
+		var under = $('<div class="nilland" style="position:absolute;left:' + x + 'px;top:0px;font-size:28px;padding-top:25px;padding-left:30px;"/>').text(saying[i])
+		var over = $('<img style="position:absolute;left:' + x + 'px;top:0px;"/>').attr('src', card.src).css('width', i < cards.length - 1 ? '240px' : '239px').css('height', '245px').hover(function () { $(this).css('opacity', 0) }, function () { $(this).css('opacity', 1) })
+		d.append(under).append(over)
+	})
+
+	return d
+}
+
+function drawRecentNotableCashes() {
+	var d = $('<div style="width:327px;background:rgb(13, 13, 13);border:1px solid rgb(26, 25, 27);padding-top:30px;padding-bottom:20px;padding-left:26px;margin-right:4px"/>')
+	d.append(drawDashedTitle(273, 28, 'Recent Notable Cashes'))
+
+	function drawEntry(num, header, subtext, border) {
+		var d = $('<div style="width:273px;padding-top:23px;padding-bottom:23px;"/>')
+		if (border) d.myCss('border-bottom:1px solid rgb(33, 33, 35);')
+		d.append($('<div style="float:left;padding-top:14px;font-size:39px;color:rgb(95, 95, 95);"/>').text(num))
+		d.append($('<div style="float:right;width:213px;"/>').append($('<div style="padding-bottom:6px;color:rgb(179, 179, 179);"/>').text(header)).append($('<div style="color:rgb(95, 95, 95);line-height: 21px;"/>').text(subtext)))
+		d.append($('<div style="clear:both"/>'))
+		return d
+	}
+
+	var xs = data['Recent Notable Cashes'].match(/^\w+ \d+, \d+\s+.*/mg)
+	_.each(xs, function (x, i) {
+		var m = x.match(/(\w+) (\d+), (\d+)\s+(.*)/)
+		var num = m[2]
+		if (num.length < 2) num = '0' + num
+		d.append(drawEntry(num, m[1] + ', ' + m[3], m[4], i < xs.length - 1))
+	})
+
+	return d
+}
+
+function drawDashedLine(width) {
+	return $('<div style="height:10px;width:' + width + 'px;background-image:linear-gradient(to right, rgba(44,45,53,.75) 0px, rgba(44,45,53,.75) 9px, rgba(40,21,21,.43) 9px, rgba(40,21,21,.43) 11px); background-position: bottom;background-size:11px 1px;background-repeat: repeat-x;"/>')
+}
+
+function drawDashedTitle(width, fontSize, html) {
+	return $('<div class="nilland" style="width:' + width + 'px;font-size: ' + fontSize + 'px;"/>').html(html).append(drawDashedLine(width))
+}
+
+function drawPageTitle(html) {
+	return $('<div style="position:relative;width:966px;min-height:196px;left:0px;top:0px;padding-top:40px;background:linear-gradient(to bottom, rgba(12,12,12,1) 0px,rgba(0,0,0,0) 196px);"/>').append(drawDashedTitle(966, 32, html).css('margin-bottom', '22px'))
+}
+
+function drawHeader(tab) {
+	var d = $('<div style="position:relative;width:966px;height:122px;background: url(images/grad.png) no-repeat top center;"/>')
+    d.append($('<img src="images/logo.png" style="margin-top:26px;cursor:pointer"/>').click(function () {
+    	setHash('')
+    }))
+    d.append(drawTabs(tab))
+    return d
+}
+
+function drawFooter() {
+	var D = $('<div style="position:absolute;left:0px;bottom:0px;width:100%;height:107px;border-top:1px solid black"/>')
+	var d = $('<div style="width:100%;height:106px;background:black;border-top:3px solid #1C1B19"/>')
+    var dd = $('<div style="width:966px;margin: 0 auto;"/>')
+    d.append(dd)
+    dd.append(drawTabsFooter().css('margin-top', '39px'))
+    dd.append($('<div style="font-size:13px;color:rgb(66, 63, 63);margin-top:6px"/>').append($('<span style="text-decoration:underline;cursor:pointer"/>').text('MichaelLoncar.com').hover(function () { $(this).css('text-decoration', 'none') }, function () { $(this).css('text-decoration', 'underline') }).click(function () {
+    	setHash('')
+    })).append($('<span/>').text(' © 2015')))
+
+    return D.append(d)
+}
+
+function drawHome() {
+    var d = $('<div style="width:966px;"/>')
+
+    d.append(drawSlides())
+
+    d.append(drawDashedTitle(966, 32, 'The Official Site of Professional Poker Player<br/>Michael Loncar').css('margin-top', '29px'))
+    d.append($('<div style="height:70px;width:966px;"/>'))
+
+    var left = $('<div style="float:left"/>')
+    left.append(drawDashedTitle(581, 28, 'Check Back Often').css('margin-top', '31px'))
+    left.append($('<div style="margin-top:20px;width:581px"/>').append($('<img style="float:left" src="images/gear.png"/>')).append($('<div style="float:left;color:rgb(192, 192, 192);line-height: 21px;margin-left:15px"/>').html('Make sure to check back often,<br><span style="color:rgb(95, 95, 95)">as the site will be updated and modified weekly with new blogs and pages.</span>')).append($('<div style="clear:both"/>')))
+
+    left.append(drawDashedTitle(581, 28, 'Upcoming Schedule').css('margin-top', '70px'))
+    left.append($('<div style="margin-top:20px;width:581px;line-height: 21px;"/>').html(data['Upcoming Schedule'].replace(/\n/g, '<br/>')))
+    d.append(left)
+
+    d.append(drawRecentNotableCashes().css('float', 'right'))
+    d.append($('<div style="clear:both"/>'))
+
+	return d
+}
+
+function drawAboutMe() {
+    var d = $('<div style="width:966px;"/>')
+
+    d.append(drawCards())
+
+    d.append($('<div style="height:28px;width:966px;"/>'))
+
+    var left = $('<div style="float:left"/>')
+    left.append(drawDashedTitle(581, 28, 'Player Bio').css('margin-top', '31px'))
+    left.append($('<div style="margin-top:20px;width:581px;line-height: 21px;"/>').html(data['Player Bio'].replace(/\n/g, '<br/>')))
+    d.append(left)
+
+    left.append(drawDashedTitle(581, 28, 'Online Sit N Go Accolades').css('margin-top', '40px'))
+    left.append($('<div style="margin-top:20px;width:581px;"/>').html(data['Online Sit N Go Accolades'].replace(/\n/g, '<br/>')))
+    left.find('a').css({ 'color' : 'rgb(3, 202, 243)', 'text-decoration' : 'none' }).hover(function () { $(this).css({ color : 'white', 'text-decoration' : 'underline' }) }, function () { $(this).css({ color : 'rgb(3, 202, 243)', 'text-decoration' : 'none' }) })
+    d.append(left)
+
+    d.append(drawRecentNotableCashes().css('float', 'right'))
+    d.append($('<div style="clear:both"/>'))
+
+	return d
+}
+
+function drawBlogMenu() {
+    var d = $('<div style="position:relative;width:966px;height:196px;background: linear-gradient(to bottom, rgba(12,12,12,1) 0%,rgba(0,0,0,0) 100%);"/>')
+
+    function drawReadMore(x, hash) {
+    	return $('<div style="cursor:pointer;position:absolute;background:linear-gradient(to bottom, #45AEEF 0%, #58C8EF 100%);left:' + x + 'px;top:128px;width:78px;height:32px;border-radius:3px;"/>').append(center($('<div style="font-size:12px;text-shadow: 1px 1px rgba(0,0,0,.35);"/>').text('Read More'))).hover(function () { $(this).css('background', 'linear-gradient(to bottom, #58C9EF 0%, #307DAB 100%)') }, function () { $(this).css('background', 'linear-gradient(to bottom, #45AEEF 0%, #58C8EF 100%)') }).click(function () {
+    		setHash(hash)
+    	})
+    }
+
+    function addThing(x, title, hash) {
+	    d.append($('<div class="nilland" style="position:absolute;left:' + x + 'px;top:32px;font-size:32px;"/>').html(title))
+	    d.append(drawReadMore(x, hash))
+    }
+
+    addThing(307, 'Video<br/>Blog', 'blog-video')
+    addThing(552, 'Journal<br/>Blog', 'blog-journal')
+    addThing(797, 'Live<br/>Updates', 'blog-live')
+
+    d.append($('<div style="position:absolute;top:32px;left:0px;width:223px;height:123px;border-radius:6px;background:linear-gradient(to bottom, #2D2D2D 0%, #1F1F1F 95.12%, #191919 95.12%, #191919 100%)"/>').append($('<div style="font-family:serif;position:absolute;left:0px;top:0px;font-size:180px;color:#2B2B2B"/>').text('“')).append($('<div style="position:absolute;left:13px;top:62px;width:197px;height:1px;background:#2D2D2D"/>')).append($('<div style="position:absolute;left:13px;top:63px;width:197px;height:1px;background:#202020"/>')).append($('<div class="nilland" style="position:absolute;left:0px;top:25px;width:223px;text-align:center;font-size:28px"/>').text('Blogs ').append($('<div style="display:inline-block"/>').text('♠').rotate(90))))
+
+	return d
+}
+
+function drawVideoBlog() {
+	var d = drawPageTitle('Video Blog')
+
+    _.each(data['Video Blog'].split(/^\-\-\-/m), function (x, i) {
+    	if (i > 0)
+    		d.append(drawDashedLine(966).myCss('margin-top:22px;margin-bottom:22px'))
+    	x = _.trim(x)
+    	x = x.replace(/\n/g, '<br/>')
+    	d.append($('<div style="width:966px;"/>').html(x))
+    })
+
+	return d
+}
+
+function drawJournalBlog() {
+	var d = drawPageTitle('Journal Blog')
+
+    _.each(data['Journal Blog'].split(/^\-\-\-/m), function (x, i) {
+    	if (i > 0)
+    		d.append(drawDashedLine(966).myCss('margin-top:22px;margin-bottom:22px'))
+    	x = _.trim(x)
+    	x = x.replace(/\n/g, '<br/>')
+    	d.append($('<div style="width:966px;"/>').html(x))
+    })
+
+	return d
+}
+
+function drawLiveUpdates() {
+	var d = drawPageTitle('Live Updates')
+
+	d.append($('<div style="font-size:20px;color:rgb(3, 202, 243);margin-bottom:22px"/>').text('newest updates on top'))
+
+	var xs = data['Live Updates'].split(/^\-\-\-/m)
+    _.each(xs, function (x, i) {
+    	if (i > 0)
+    		d.append(drawDashedLine(966).myCss('margin-top:22px;margin-bottom:22px'))
+    	x = _.trim(x)
+    	x = x.replace(/\n/g, '<br/>')
+    	d.append($('<div style="font-size:20px;width:966px;"/>').html('#' + (xs.length - i) + '&nbsp;&nbsp;&nbsp;' + x))
+    })
+
+	return d
+}
+
+function drawPokerUpFront() {
+	var d = drawPageTitle('PokerUpFront')
+	d.append($('<div style="width:966px;"/>').html(data['PokerUpFront'].replace(/\n/g, '<br/>')))
+	return d
+}
+
+function drawGallery() {
+	var d = drawPageTitle('Gallery<span style="font-size:26.666px;"> - Follow Michael on Instagram: <span class="x">@Michael_Loncar</span></span>')
+
+	d.find('.x').myCss('color:rgb(3, 202, 243);cursor:pointer').hover(function () { $(this).myCss('color:white;text-decoration:underline') }, function () { $(this).myCss('color:rgb(3, 202, 243);text-decoration:none') }).click(function () {
+		window.location.href = 'https://instagram.com/michael_loncar'
+	})
+
+    _.each(_.lines(data['Gallery']), function (x) {
+    	var m = x.split(/ /)
+    	if (m.length == 2) {
+    		var src = m[1]
+    		d.append($('<img width="300px" height="300px" style="float:left;cursor:pointer"/>').attr('src', src).click(function () {
+		        $.fancybox({
+		            href : src,
+		            openEffect : 'none',
+		            closeEffect : 'none'
+		        })
+    		}))
+    	}
+    })
+    d.append($('<div style="clear:both"/>'))
+
+	return d
+}
+
+waitingOn = 2
+$.get('data.txt', function (s) {
+	data = {}
+	_.each(s.split(/@@@@@=/), function (x) {
+	    var m = x.match(/(.+)\s*([\s\S]*)/)
+	    if (m) {
+	        data[m[1]] = _.trim(m[2])
+	    }
+	})
+	waitingOn--
+	main()
+})
+$(function () {
+	waitingOn--
+	main()
+})
+function main() {
+	if (waitingOn > 0) return
+    $('body').myCss('height:100%;background: url(images/bg.jpg) repeat;')
+
+	$('.fancybox').fancybox()
+
+	window.onhashchange = function () {
+		var x = (location.hash.replace(/^#/, '') || 'home').split(/\-/)
+		var hash = x[0]
+		var subhash = x[1]
+
+	    var D = $('<div style="position:relative;min-height:100%;padding-bottom:137px"/>')
+		var d = $('<div style="width:966px;margin: 0 auto;"/>')
+	    d.append(drawHeader(hash))
+		if (hash == 'home')
+			d.append(drawHome())
+		if (hash == 'aboutme')
+			d.append(drawAboutMe())
+		if (hash == 'blog') {
+			if (!subhash)
+				d.append(drawBlogMenu())
+			if (subhash == 'video')
+				d.append(drawVideoBlog())
+			if (subhash == 'journal')
+				d.append(drawJournalBlog())
+			if (subhash == 'live')
+				d.append(drawLiveUpdates())
+		}
+		if (hash == 'pokerupfront')
+			d.append(drawPokerUpFront())
+		if (hash == 'gallery')
+			d.append(drawGallery())
+	    D.append(drawFooter())
+		$('body').empty().append(D.append(d))
+		window.scrollTo(0, 0)
+	}
+	window.onhashchange()
+}
+
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+</script></body></html>
