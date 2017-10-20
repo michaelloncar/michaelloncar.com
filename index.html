@@ -452,10 +452,10 @@ function main() {
 		window.scrollTo(0, 0)
 	}
 	window.onhashchange()
-	
+
 	var feed = new Instafeed({
-        get: 'tagged',
-        tagName: 'awesome',
+        get: 'user',
+        userId: 'michael_loncar',
         clientId: '19ed952bb4c540f98eca7611bd92465a'
     });
     feed.run();
