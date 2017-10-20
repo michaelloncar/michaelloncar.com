@@ -45,6 +45,7 @@ th, td { padding: 0px; }
   ga('send', 'pageview');
 
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/instafeed.js/1.4.1/instafeed.min.js"></script>
 </head><body>
 <script src="jquery.js"></script>
 <script src="utils.js"></script>
@@ -379,19 +380,20 @@ function drawGallery() {
 		window.location.href = 'https://instagram.com/michael_loncar'
 	})
 
-    _.each(_.lines(data['Gallery']), function (x) {
-    	var m = x.split(/ /)
-    	if (m.length == 2) {
-    		var src = m[1]
-    		d.append($('<img width="300px" height="300px" style="float:left;cursor:pointer"/>').attr('src', src).click(function () {
-		        $.fancybox({
-		            href : src,
-		            openEffect : 'none',
-		            closeEffect : 'none'
-		        })
-    		}))
-    	}
-    })
+    // _.each(_.lines(data['Gallery']), function (x) {
+    // 	var m = x.split(/ /)
+    // 	if (m.length == 2) {
+    // 		var src = m[1]
+    // 		d.append($('<img width="300px" height="300px" style="float:left;cursor:pointer"/>').attr('src', src).click(function () {
+		  //       $.fancybox({
+		  //           href : src,
+		  //           openEffect : 'none',
+		  //           closeEffect : 'none'
+		  //       })
+    // 		}))
+    // 	}
+    // })
+	d.append('<div id="instafeed"></div>')
     d.append($('<div style="clear:both"/>'))
 
 	return d
@@ -450,6 +452,13 @@ function main() {
 		window.scrollTo(0, 0)
 	}
 	window.onhashchange()
+	
+	var feed = new Instafeed({
+        get: 'tagged',
+        tagName: 'awesome',
+        clientId: '19ed952bb4c540f98eca7611bd92465a'
+    });
+    feed.run();
 }
 
 ///////////////////////////////////////////////////////////////////////
