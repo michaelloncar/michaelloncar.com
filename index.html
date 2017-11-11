@@ -445,22 +445,23 @@ function main() {
 		}
 		if (hash == 'pokerupfront')
 			d.append(drawPokerUpFront())
-		if (hash == 'gallery')
+		if (hash == 'gallery') {
 			d.append(drawGallery())
+			var feed = new Instafeed({
+				accessToken: '1016902597.1677ed0.d500fb7bb92d4639bf3ff1a081483753',
+				clientId: '19ed952bb4c540f98eca7611bd92465a',
+		        get: 'user',
+		        userId: '1016902597',
+		        template: '<a target="_blank" href="{{link}}"><img src="{{image}}" width="300px" height="300px" style="float:left;cursor:pointer"/></a>'
+		    })
+		    feed.run()
+		}
 	    D.append(drawFooter())
 		$('body').empty().append(D.append(d))
 		window.scrollTo(0, 0)
 	}
 	window.onhashchange()
 
-	var feed = new Instafeed({
-		accessToken: '1016902597.1677ed0.d500fb7bb92d4639bf3ff1a081483753',
-		clientId: '19ed952bb4c540f98eca7611bd92465a',
-        get: 'user',
-        userId: '1016902597',
-        template: '<a target="_blank" href="{{link}}"><img src="{{image}}" width="300px" height="300px" style="float:left;cursor:pointer"/></a>'
-    });
-    feed.run();
 }
 
 ///////////////////////////////////////////////////////////////////////
