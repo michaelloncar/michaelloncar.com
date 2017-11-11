@@ -34,6 +34,13 @@ th, td { padding: 0px; }
 	line-height: 21px;
 }
 
+.instafeed-card {
+	width: 33.333333%; 
+	float: left;
+	position: relative;
+    min-height: 1px;
+}
+
 .img-featured-container {
   overflow: hidden;
   position: relative;
@@ -469,19 +476,6 @@ function drawGallery() {
 		window.location.href = 'https://instagram.com/michael_loncar'
 	})
 
-    // _.each(_.lines(data['Gallery']), function (x) {
-    // 	var m = x.split(/ /)
-    // 	if (m.length == 2) {
-    // 		var src = m[1]
-    // 		d.append($('<img width="300px" height="300px" style="float:left;cursor:pointer"/>').attr('src', src).click(function () {
-		  //       $.fancybox({
-		  //           href : src,
-		  //           openEffect : 'none',
-		  //           closeEffect : 'none'
-		  //       })
-    // 		}))
-    // 	}
-    // })
 	d.append('<div id="instafeed-gallery-feed" class="gallery"></div>')
 	d.append('<button id="btn-instafeed-load" class="btn">Load more</button>')
     d.append($('<div style="clear:both"/>'))
@@ -561,7 +555,7 @@ function main() {
 			      // ensure the filter doesn't reject any images
 			      return true;
 		      },
-			  template: '<div style="width: 33.333333%; float: left"><a href="{{image}}"><div class="img-featured-container"><div class="img-backdrop"></div><div class="description-container"><p class="caption">{{model.short_caption}}</p><span class="likes"><i class="icon ion-heart"></i> {{likes}}</span><span class="comments"><i class="icon ion-chatbubble"></i> {{comments}}</span></div><img src="{{image}}" class="img-responsive"></div></a></div>',
+			  template: '<div class="instafeed-card"><a href="{{image}}"><div class="img-featured-container"><div class="img-backdrop"></div><div class="description-container"><p class="caption">{{model.short_caption}}</p><span class="likes"><i class="icon ion-heart"></i> {{likes}}</span><span class="comments"><i class="icon ion-chatbubble"></i> {{comments}}</span></div><img src="{{image}}" class="img-responsive"></div></a></div>',
 			  target: 'instafeed-gallery-feed',
 			  after: function() {
 			    // disable button if no more results to load
