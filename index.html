@@ -41,7 +41,10 @@ th, td { padding: 0px; }
 
 .img-featured-container img {
   width: 100%;
-/*   padding: 10px; */
+  display: block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
 }
 
 .img-featured-container .img-backdrop {
@@ -548,6 +551,9 @@ function main() {
 			      // on the image object, using the original caption
 			      if (image.caption && image.caption.text) {
 			        image.short_caption = image.caption.text.slice(0, MAX_LENGTH);
+			        if(image.caption.text.length != image.short_caption.length) {
+			        	image.short_caption += ' ...'
+			        }
 			      } else {
 			        image.short_caption = "";
 			      }
