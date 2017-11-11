@@ -545,6 +545,10 @@ function main() {
 			  target: 'instafeed-gallery-feed',
 			  after: function() {
 			    // disable button if no more results to load
+			    var btnInstafeedLoad = document.getElementById("btn-instafeed-load")
+				btnInstafeedLoad.addEventListener("click", function() {
+				  galleryFeed.next()
+				})
 			    if (!this.hasNext()) {
 			      btnInstafeedLoad.setAttribute('disabled', 'disabled')
 			    }
@@ -552,11 +556,6 @@ function main() {
 			})
 			
 			galleryFeed.run()
-
-			var btnInstafeedLoad = document.getElementById("btn-instafeed-load")
-			btnInstafeedLoad.addEventListener("click", function() {
-			  galleryFeed.next()
-			})
 		}
 	    D.append(drawFooter())
 		$('body').empty().append(D.append(d))
