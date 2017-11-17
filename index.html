@@ -298,7 +298,7 @@ function drawCards() {
 
 function drawRecentNotableCashes() {
 	var d = $('<div style="width:327px;background:rgb(13, 13, 13);border:1px solid rgb(26, 25, 27);padding-top:30px;padding-bottom:20px;padding-left:26px;margin-right:4px"/>')
-	d.append(drawDashedTitle(273, 28, 'Recent Notable Cashes'))
+	d.append(drawDashedTitle(273, 28, 'Notable Cashes'))
 
 	function drawEntry(num, header, subtext, border) {
 		var d = $('<div style="width:273px;padding-top:23px;padding-bottom:23px;"/>')
@@ -309,7 +309,7 @@ function drawRecentNotableCashes() {
 		return d
 	}
 
-	var xs = data['Recent Notable Cashes'].match(/^\w+ \d+, \d+\s+.*/mg)
+	var xs = data['Notable Cashes'].match(/^\w+ \d+, \d+\s+.*/mg)
 	_.each(xs, function (x, i) {
 		var m = x.match(/(\w+) (\d+), (\d+)\s+(.*)/)
 		var num = m[2]
@@ -366,8 +366,8 @@ function drawHome() {
     left.append(drawDashedTitle(581, 28, 'Check Back Often').css('margin-top', '31px'))
     left.append($('<div style="margin-top:20px;width:581px"/>').append($('<img style="float:left" src="images/gear.png"/>')).append($('<div style="float:left;color:rgb(192, 192, 192);line-height: 21px;margin-left:15px"/>').html('Make sure to check back often,<br><span style="color:rgb(95, 95, 95)">as the site will be updated and modified weekly with new blogs and pages.</span>')).append($('<div style="clear:both"/>')))
 
-    left.append(drawDashedTitle(581, 28, 'Upcoming Schedule').css('margin-top', '70px'))
-    left.append($('<div style="margin-top:20px;width:581px;line-height: 21px;"/>').html(data['Upcoming Schedule'].replace(/\n/g, '<br/>')))
+    left.append(drawDashedTitle(581, 28, 'E-mail: ThePureShooter@hotmail.com').css('margin-top', '70px'))
+    left.append($('<div style="margin-top:20px;width:581px;line-height: 21px;"/>').html(data['E-mail: ThePureShooter@hotmail.com'].replace(/\n/g, '<br/>')))
     d.append(left)
 
     d.append(drawRecentNotableCashes().css('float', 'right'))
