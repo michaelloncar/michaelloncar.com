@@ -90,7 +90,7 @@ Supernova Elite
 <b>Profit 2008</b>
 8th Any Game 5 to 6 Players $6-$15 
 
-<img style="width: 240px; height: 245px; opacity: 1;" src="http://michaelloncar.com/images/pokerStarsProfitChart.jpg">
+<img style="width: 500px; opacity: 1;" src="http://michaelloncar.com/images/pokerStarsProfitChart.jpg">
 
 <a href="http://www.sharkscope.com/#Player-Statistics//networks/Cereus/players/6MAXGR1NDER" style="font-size:16px"><b>6MAXGR1NDER - Cereus</b></a>
 
@@ -108,7 +108,7 @@ Supernova Elite
 15th Holdem 5 to 6 Players Turbo $36-$100 
 9th Holdem 5 to 6 Players Turbo Any Stakes
 
-<img style="width: 240px; height: 245px; opacity: 1;" src="http://michaelloncar.com/images/cereusProfitChart.jpg">
+<img style="width: 500px; opacity: 1;" src="http://michaelloncar.com/images/cereusProfitChart.jpg">
 
 
 @@@@@=Gallery
