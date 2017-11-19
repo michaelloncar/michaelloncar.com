@@ -279,7 +279,7 @@ function drawCards() {
 	var d = $('<div style="position:relative;width:966px;height:249px;border:2px solid rgba(255, 255, 255, 0.1);"/>')
 	d.append($('<div style="width:100%;height:100%;background:black"/>'))
 
-	var saying = "It's a good life.".split(/ /)
+	var saying = "Coaching is an investment.".split(/ /)
 	var cards = _.map(new Array(4), function (__, i) {
 		var img = new Image()
 		img.src = 'images/card' + (i + 1) + '.png'
@@ -359,7 +359,7 @@ function drawHome() {
 
     d.append(drawSlides())
 
-    d.append(drawDashedTitle(966, 32, 'The Official Site of Professional Poker Player<br/>Michael Loncar').css('margin-top', '29px'))
+    d.append(drawDashedTitle(966, 32, 'The Official Site of Professional Poker Player and Poker Coach<br/>Michael Loncar').css('margin-top', '29px'))
     d.append($('<div style="height:70px;width:966px;"/>'))
 
     var left = $('<div style="float:left"/>')
